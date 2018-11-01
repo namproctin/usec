@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:5-alpine
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    ports: ["8000:8000"]
+    volumes:
+      - .:/opt/app
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+    command: "./scripts/start_docker.sh"
